@@ -1,10 +1,6 @@
 import React from "react";
 
-interface FooterProps {
-  isLoginMode?: boolean;
-}
-
-export default function Footer({ isLoginMode = false }: FooterProps) {
+export default function Footer({ isLoginMode = false }) {
   const footerLinks = [
     "FAQ",
     "Help Center",

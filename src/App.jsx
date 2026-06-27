@@ -14,22 +14,21 @@ import {
   EyeOff,
   AlertCircle
 } from "lucide-react";
-import { NetflixUser, NetflixProfile, Movie, MovieCategory } from "./types";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ProfileSelector from "./components/ProfileSelector";
 
 export default function App() {
   // Session states
-  const [user, setUser] = useState<NetflixUser | null>(() => {
+  const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("netflix_user");
     return saved ? JSON.parse(saved) : null;
   });
-  const [activeProfile, setActiveProfile] = useState<NetflixProfile | null>(() => {
+  const [activeProfile, setActiveProfile] = useState(() => {
     const saved = localStorage.getItem("netflix_active_profile");
     return saved ? JSON.parse(saved) : null;
   });
-  const [token, setToken] = useState<string | null>(() => {
+  const [token, setToken] = useState(() => {
     return localStorage.getItem("netflix_token");
   });
 
@@ -46,14 +45,14 @@ export default function App() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Validation / Loading states
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [generalError, setGeneralError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [generalError, setGeneralError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Dashboard content states
-  const [categories, setCategories] = useState<MovieCategory[]>([]);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
-  const [myList, setMyList] = useState<Movie[]>(() => {
+  const [categories, setCategories] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [myList, setMyList] = useState(() => {
     const saved = localStorage.getItem("netflix_mylist");
     return saved ? JSON.parse(saved) : [];
   });
@@ -86,13 +85,13 @@ export default function App() {
   }, [user, activeProfile]);
 
   // Handle Form Submission
-  const handleAuthSubmit = async (e: React.FormEvent) => {
+  const handleAuthSubmit = async (e) => {
     e.preventDefault();
     setFieldErrors({});
     setGeneralError(null);
 
     // Frontend validation
-    const errors: Record<string, string> = {};
+    const errors = {};
     if (!email.trim() || !email.includes("@")) {
       errors.email = "Please enter a valid email address.";
     }
@@ -149,12 +148,12 @@ export default function App() {
   };
 
   // Profile selection
-  const handleSelectProfile = (profile: NetflixProfile) => {
+  const handleSelectProfile = (profile) => {
     setActiveProfile(profile);
     localStorage.setItem("netflix_active_profile", JSON.stringify(profile));
   };
 
-  const handleUpdateProfiles = (updatedProfiles: NetflixProfile[]) => {
+  const handleUpdateProfiles = (updatedProfiles) => {
     if (!user) return;
     const updatedUser = { ...user, profiles: updatedProfiles };
     setUser(updatedUser);
@@ -175,7 +174,7 @@ export default function App() {
   };
 
   // Toggle My List helper
-  const toggleMyList = (movie: Movie, e?: React.MouseEvent) => {
+  const toggleMyList = (movie, e) => {
     if (e) e.stopPropagation();
     const exists = myList.some((m) => m.id === movie.id);
     if (exists) {
@@ -191,7 +190,6 @@ export default function App() {
       let filteredMovies = cat.movies;
 
       // Filter by active Tab:
-      // tv tab filters for shows (using "4 Seasons" or "Seasons" tag logic as a heuristic, or TV- prefix)
       if (currentTab === "tv") {
         filteredMovies = filteredMovies.filter(
           (m) => m.duration.toLowerCase().includes("season") || m.rating.startsWith("TV")
@@ -223,7 +221,7 @@ export default function App() {
   const filteredCategories = getFilteredCategories();
 
   // Spot primary featured movie for beautiful showcase billboard
-  const heroMovie: Movie | null = categories[0]?.movies[0] || null;
+  const heroMovie = categories[0]?.movies[0] || null;
 
   return (
     <div className="mesh-bg flex min-h-screen flex-col justify-between text-white selection:bg-netflix-red selection:text-white">

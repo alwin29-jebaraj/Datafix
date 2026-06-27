@@ -2,20 +2,6 @@ import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
 
-// Setup types for mock in-memory database
-interface NetflixProfile {
-  name: string;
-  avatarUrl: string;
-  isKids: boolean;
-}
-
-interface NetflixUser {
-  email: string;
-  name: string;
-  tier: "Premium Ultra HD" | "Standard HD" | "Basic with Ads";
-  profiles: NetflixProfile[];
-}
-
 async function startServer() {
   const app = express();
   const PORT = 3000;
@@ -26,7 +12,7 @@ async function startServer() {
   // Initial accounts:
   // 1. netflix@netflix.com / netflix2026
   // 2. guest@netflix.com / guest123
-  const usersDatabase: Record<string, { user: NetflixUser; passwordHash: string }> = {
+  const usersDatabase = {
     "netflix@netflix.com": {
       passwordHash: "netflix2026",
       user: {
@@ -294,7 +280,7 @@ async function startServer() {
     const cleanName = (name && typeof name === "string" && name.trim()) || "New Member";
 
     // Create the user profile in-memory
-    const newUser: NetflixUser = {
+    const newUser = {
       email: emailKey,
       name: cleanName,
       tier: "Premium Ultra HD",

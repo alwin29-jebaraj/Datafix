@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Search, Bell, LogOut, ChevronDown, RefreshCw, Sparkles, Heart } from "lucide-react";
-import { NetflixUser, NetflixProfile } from "../types";
-
-interface HeaderProps {
-  user: NetflixUser | null;
-  activeProfile: NetflixProfile | null;
-  onLogout: () => void;
-  onSwitchProfile: () => void;
-  searchQuery: string;
-  setSearchQuery: (q: string) => void;
-  onTabChange?: (tab: string) => void;
-  currentTab?: string;
-}
+import { Search, Bell, LogOut, ChevronDown, RefreshCw, Sparkles } from "lucide-react";
 
 export default function Header({
   user,
@@ -22,7 +10,7 @@ export default function Header({
   setSearchQuery,
   onTabChange,
   currentTab = "home"
-}: HeaderProps) {
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);

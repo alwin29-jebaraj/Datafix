@@ -1,19 +1,12 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Plus, Check, Trash2 } from "lucide-react";
-import { NetflixUser, NetflixProfile } from "../types";
-
-interface ProfileSelectorProps {
-  user: NetflixUser;
-  onSelectProfile: (profile: NetflixProfile) => void;
-  onUpdateUserProfiles: (updatedProfiles: NetflixProfile[]) => void;
-}
+import { Plus, Trash2 } from "lucide-react";
 
 export default function ProfileSelector({
   user,
   onSelectProfile,
   onUpdateUserProfiles
-}: ProfileSelectorProps) {
+}) {
   const [isManaging, setIsManaging] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [newProfileName, setNewProfileName] = useState("");
@@ -28,12 +21,12 @@ export default function ProfileSelector({
     "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80"
   ];
 
-  const handleCreateProfile = (e: React.FormEvent) => {
+  const handleCreateProfile = (e) => {
     e.preventDefault();
     if (!newProfileName.trim()) return;
 
     const randomAvatar = avatarPool[Math.floor(Math.random() * avatarPool.length)];
-    const newProfile: NetflixProfile = {
+    const newProfile = {
       name: newProfileName.trim(),
       avatarUrl: randomAvatar,
       isKids: newProfileIsKids
@@ -48,7 +41,7 @@ export default function ProfileSelector({
     setIsAdding(false);
   };
 
-  const handleDeleteProfile = (indexToDelete: number, e: React.MouseEvent) => {
+  const handleDeleteProfile = (indexToDelete, e) => {
     e.stopPropagation();
     // Netflix demands keeping at least 1 profile
     if (user.profiles.length <= 1) {
